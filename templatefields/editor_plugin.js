@@ -2,18 +2,20 @@
  * $Id: editor_plugin_src.js 520 2008-07-10 11:00:00Z chud $
  *
  * @author ibCom
- * @copyright Copyright © 2004-2008, ibCom, All rights reserved.
+ * @copyright Copyright © 2004-2013, ibCom, All rights reserved.
  */
 
 (function() {
 	tinymce.create('tinymce.plugins.templateFieldsPlugin', {
 		init : function(ed, url) {
-			var TemplateLinkType = tinyMCE.activeEditor.getParam("TemplateLinkType");
+			var TemplateLinkType = tinyMCE.activeEditor.getParam("TemplateLinkType", "NOTSET");
+			if (TemplateLinkType === "NOTSET") {TemplateLinkType = tinyMCE.activeEditor.getParam("templateField_object", "NOTSET");}
+			if (TemplateLinkType === "NOTSET") {TemplateLinkType = ""}
 
 			// Register commands
 			ed.addCommand('mcetemplateFields', function() {
 				ed.windowManager.open({
-					file : url + '/templateFields.asp?TemplateLinkType=' + TemplateLinkType,
+					file : url + '/ondemand/core/?method=CORE_DYNAMIC_TAG_SEARCH&classic=1&object=' + TemplateLinkType,
 					width : 500,
 					height : 600,
 					inline : 1
